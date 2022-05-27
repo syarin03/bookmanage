@@ -74,7 +74,7 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
                     else:
                         pass
         elif sel == '3':
-            sel2 = input("(1) 대여\n(2) 반납\n> ")
+            sel2 = input("(1) 대여하기\n(2) 반납하기\n> ")
             if sel2 == '1':
                 while True:
                     sel3 = input("(1) 고유번호로 대여\n(2) 도서명으로 대여\n(3) 대여하기\n> ")
