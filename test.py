@@ -53,7 +53,7 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
             print()
             cho = input("(1) 저자로 검색\n(2) 도서명으로 검색\n(3) 고유번호로 검색\n> ")
             if cho == '1':
-                name = input("작가명을 입력해주세요.\n> ")
+                name = input("저자을 입력해주세요.\n> ")
                 for i in dic.values():
                     if i[0].find(name) != -1:
                         print(i[0] + " - " + i[1])
@@ -61,7 +61,7 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
                         print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
                         pass
             elif cho == '2':
-                bookname = input("책이름을 입력해주세요.\n> ")
+                bookname = input("도서명을 입력해주세요.\n> ")
                 for i in dic.values():
                     if i[1].find(bookname) != -1:
                         print(i[0] + " - " + i[1])
@@ -169,7 +169,7 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
                     print(nowlogin.book)
                     set8 = input("도서명을 입력해주세요\n> ")
                     for j in dic.keys():
-                        if dic[j][1].find(set8) != -1: # i = [작가, 책이름, 상태], nowlogin.book = [[작가, 책이름],[작가, 책이름],[작가, 책이름]...]
+                        if dic[j][1].find(set8) != -1: # i = [저자, 도서명, 상태], nowlogin.book = [[저자, 도서명],[저자, 도서명],[저자, 도서명]...]
                             cnt1 = 0
                             for i in borrow_book:
                                 print(i[0] + " - " + i[1] + " - " + i[2])
