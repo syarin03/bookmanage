@@ -26,60 +26,76 @@ class User:  # 회원 정보와 회원 관련 함수를 담을 클래스
             self.user_id, self.password, self.name, self.phone))
 
 
-dic = {"001": ["황순원", "별", "대여가능"], "002": ["이광수", "흙", "대여가능"], "003": ["나도향", "벙어리삼룡이", "대여가능"], "004": ["전영택", "화수분", "대여가능"],
+dic = {"001": ["황순원", "별", "대여가능"], "002": ["이광수", "흙", "대여가능"], "003": ["나도향", "벙어리삼룡이", "대여가능"],
+       "004": ["전영택", "화수분", "대여가능"],
        "005": ["김유정", "동백꽃", "대여가능"], "006": ["피터 스완슨", "여덟 건의 완벽한 살인", "대여가능"], "007": ["오노 후유미", "시귀1", "대여가능"],
-       "008": ["나가츠키 탓페이", "Re:제로부터 시작하는 이세계 생활", "대여가능"], "009": ["베르나르 베르베르", "파피용", "대여가능"], "010": ["정찬주", "공부하다 죽어라", "대여가능"]}
+       "008": ["나가츠키 탓페이", "Re:제로부터 시작하는 이세계 생활", "대여가능"], "009": ["베르나르 베르베르", "파피용", "대여가능"],
+       "010": ["정찬주", "공부하다 죽어라", "대여가능"]}
 borrow_book = []
 end_book = []
 rebook = []
+
 
 def main(nowlogin):  # 로그인 성공 후 메인화면
     cnt1 = 0
     while True:
         print()
         print("'{0}'님 계정으로 로그인 중입니다\n".format(nowlogin.name))  # 성공 메세지 띄우고
-        sel = input("(1) 추천 도서\n(2) 도서 조회\n(3) 대여/반납 현황\n(4) 도서 기증\n(5) 내정보\n(6) 로그아웃\n(7) 일자 변경\n(8) 프로그램 종료\n> ")
+        sel = input("(1) 추천 도서\n(2) 도서 조회\n(3) 대여/반납\n(4) 도서 기증\n(5) 내정보\n(6) 로그아웃\n(7) 일자 변경\n(8) 프로그램 종료\n> ")
         if sel == '1':
             print()
             print("◎ 추천 도서 목록 ◎\n")
-            maxnum = int(list(dic.keys())[-1])+1
+            maxnum = int(list(dic.keys())[-1]) + 1
             num = list(range(1, maxnum))
             number = []
             for i in range(3):
-                number.append(num.pop(num.index(random.choice(num)))-1)
+                number.append(num.pop(num.index(random.choice(num))) - 1)
             for i in range(3):
                 print(list(dic.values())[number[i]][0] + " - " + list(dic.values())[number[i]][1])
         elif sel == '2':
             print()
             cho = input("(1) 저자로 검색\n(2) 도서명으로 검색\n(3) 고유번호로 검색\n> ")
             if cho == '1':
+                temp_cnt = 0
                 name = input("저자을 입력해주세요.\n> ")
-                for i in dic.values():
-                    if i[0].find(name) != -1:
-                        print(i[0] + " - " + i[1])
+                for i in dic:
+                    if dic.get(i)[0].find(name) != -1:
+                        print(i + " - " + dic.get(i)[0] + " - " + dic.get(i)[1])  # 검색해서 출력해주는 부분
+                        temp_cnt += 1
                     else:
-                        print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
                         pass
+                if temp_cnt == 0:
+                    print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
+
             elif cho == '2':
+                temp_cnt = 0
                 bookname = input("도서명을 입력해주세요.\n> ")
-                for i in dic.values():
-                    if i[1].find(bookname) != -1:
-                        print(i[0] + " - " + i[1])
+                for i in dic:
+                    if dic.get(i)[1].find(bookname) != -1:
+                        print(i + " - " + dic.get(i)[0] + " - " + dic.get(i)[1])  # 검색해서 출력해주는 부분
+                        temp_cnt += 1
                     else:
-                        print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
                         pass
+                if temp_cnt == 0:
+                    print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
+
             elif cho == '3':
+                temp_cnt = 0
                 booknum = input("고유번호를 입력해주세요.\n> ")
                 for i in dic.keys():
                     if i.find(booknum) != -1:
-                        print(dic.get(i)[0] + " - " + dic.get(i)[1])
+                        print(i + " - " + dic.get(i)[0] + " - " + dic.get(i)[1])  # 검색해서 출력해주는 부분
+                        temp_cnt += 1
                     else:
-                        print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
                         pass
+                if temp_cnt == 0:
+                    print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
+
         elif sel == '3':
             print()
             sel2 = input("(1) 대여하기\n(2) 반납하기\n> ")
             if sel2 == '1':
+                temp_cnt = 0
                 for a in nowlogin.book:
                     if a[3] >= 7:
                         print()
@@ -93,34 +109,43 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
                         print()
                         sel3 = input("(1) 고유번호로 대여\n(2) 도서명으로 대여\n(3) 대여하기\n> ")
                         if sel3 == '1':
-                            booknum = input("고유번호를 입력해주세요.\n> ") # 책의 고유번호를 사용해서 검색하는 부분
+                            temp_cnt = 0
+                            booknum = input("고유번호를 입력해주세요.\n> ")  # 책의 고유번호를 사용해서 검색하는 부분
                             for i in dic.keys():
                                 if i.find(booknum) != -1:
-                                    print( i + " - " + dic.get(i)[0] + " - " + dic.get(i)[1]) # 검색해서 출력해주는 부분
+                                    print(i + " - " + dic.get(i)[0] + " - " + dic.get(i)[1])  # 검색해서 출력해주는 부분
+                                    temp_cnt += 1
                                 else:
-                                    print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
                                     pass
+                            if temp_cnt == 0:
+                                print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
+
                             sel4 = input("원하시는 도서의 고유번호를 입력해주세요\n> ")
-                            if ((dic[sel4][2])) == "대여가능" and cnt1<3 and nowlogin.cnt2<3:
+                            if (dic[sel4][2]) == "대여가능" and cnt1 < 3 and nowlogin.cnt2 < 3:
                                 borrow_book.append([sel4, dic[sel4][0], dic[sel4][1], 0])
-                                ((dic[sel4][2])) = nowlogin.user_id
+                                (dic[sel4][2]) = nowlogin.user_id
                                 cnt1 += 1
                                 print("대여한 도서: ")
-                                for i in borrow_book:
-                                    print(i[0] + " - " + i[1] + " - " + i[2])
+                                for j in borrow_book:
+                                    print(j[0] + " - " + j[1] + " - " + j[2])
                             else:
                                 print("대여가 불가능합니다\n")
+
                         elif sel3 == '2':
+                            temp_cnt = 0
                             bookname = input("도서명을 입력해주세요\n> ")
                             for i in dic.values():
                                 if i[1].find(bookname) != -1:
                                     print(i[0] + " - " + i[1])
+                                    temp_cnt += 1
                                 else:
-                                    print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
                                     pass
+                            if temp_cnt == 0:
+                                print("해당 검색어를 포함한 검색 결과가 존재하지 않습니다\n")
+
                             selbook = input("원하시는 도서명을 입력해주세요\n> ")
                             for i in list(dic.values()):
-                                if selbook == i[1] and i[2] == "대여가능" and cnt1<3 and nowlogin.cnt2<3:
+                                if selbook == i[1] and i[2] == "대여가능" and cnt1 < 3 and nowlogin.cnt2 < 3:
                                     for j in dic.keys():
                                         if dic[j] == i:
                                             cnt1 += 1
@@ -128,6 +153,7 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
                                             i[2] = nowlogin.user_id
                                             for i in borrow_book:
                                                 print(i[0] + " - " + i[1] + " - " + i[2])
+
                         elif sel3 == '3':
                             nowlogin.book += borrow_book
                             for i in borrow_book:
@@ -138,21 +164,22 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
                             del borrow_book[:]
                             break
             if sel2 == '2':
-                print()
-                sel6 = input("(1) 고유번호로 반납\n(2) 도서명으로 반납\n> ")
                 # 반납 리스트에 아무것도 없으면 바로 빠꾸 먹이기
                 if len(nowlogin.book) == 0:
                     print()
                     print("반납할 도서가 없습니다\n")
-                    pass
-                elif sel6 == '1':
+                    continue
+                print()
+                sel6 = input("(1) 고유번호로 반납\n(2) 도서명으로 반납\n> ")
+                if sel6 == '1':
                     for i in nowlogin.book:
                         print(i[0] + " - " + i[1] + " - " + i[2])
                         print()
                     sel7 = input("고유번호를 입력해주세요\n> ")
                     for j in nowlogin.book:  # 사용자가 가지고 있는 책리스트의 첫번째부터 서치
                         for i in dic.values():
-                            if i[:2] == dic[sel7][:2] and i[:2] == j[1:3]: # 001의 value가 입력한 키의 value와 같고, 해당 value의 0번,1번이 해당 nowlogin.book과 같을 때
+                            if i[:2] == dic[sel7][:2] and i[:2] == j[1:3]:
+                                # 001의 value가 입력한 키의 value와 같고, 해당 value의 0번,1번이 해당 nowlogin.book과 같을 때
                                 rebook.append(j[:3])
                                 if j[3] >= 7:
                                     # 플레이어가 연체를 했다면?
@@ -169,7 +196,8 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
                     print(nowlogin.book)
                     set8 = input("도서명을 입력해주세요\n> ")
                     for j in dic.keys():
-                        if dic[j][1].find(set8) != -1: # i = [저자, 도서명, 상태], nowlogin.book = [[저자, 도서명],[저자, 도서명],[저자, 도서명]...]
+                        if dic[j][1].find(
+                                set8) != -1:  # i = [저자, 도서명, 상태], nowlogin.book = [[저자, 도서명],[저자, 도서명],[저자, 도서명]...]
                             cnt1 = 0
                             for i in borrow_book:
                                 print(i[0] + " - " + i[1] + " - " + i[2])
@@ -193,8 +221,8 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
         elif sel == '4':
             doname = input("기증하실 책의 저자를 입력해주세요\n> ")
             dobook = input("기증하실 도서명을 입력해주세요\n> ")
-            keynum = "0"+str(int(list(dic.keys())[-1])+1)
-            dic.update({keynum:[doname, dobook]})
+            keynum = "0" + str(int(list(dic.keys())[-1]) + 1)
+            dic.update({keynum: [doname, dobook]})
         elif sel == '5':
             nowlogin.printinfo()
             sel01 = input("(1) 대여 중인 도서\n(2) 반납한 도서\n(3) 내정보 변경\n(4) 연체 정보\n> ")
@@ -220,16 +248,16 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
                     change_phone = input("바꿀 번호 입력 \n> ")
                     nowlogin.phone = change_phone
                     print("변경된 전화번호: ", nowlogin.phone)
-            if sel01 =='4':
-                    sel03 = input("(1) 연체 중인 도서\n(2) 남은 대여금지 기간\n> ")
-                    if sel03 == '1':
-                        print("연체중인 도서")
-                        for j in nowlogin.book:
-                            if j[3] >= 7:
-                                print(j[1:3])
-                                print("\n")
-                    if sel03 == '2':
-                        print(nowlogin.day)
+            if sel01 == '4':
+                sel03 = input("(1) 연체 중인 도서\n(2) 남은 대여금지 기간\n> ")
+                if sel03 == '1':
+                    print("연체중인 도서")
+                    for j in nowlogin.book:
+                        if j[3] >= 7:
+                            print(j[1:3])
+                            print("\n")
+                if sel03 == '2':
+                    print(nowlogin.day)
 
         elif sel == '6':
             break
@@ -244,6 +272,7 @@ def main(nowlogin):  # 로그인 성공 후 메인화면
         elif sel == '8':
             print("프로그램을 종료합니다\n")
             exit(0)
+
 
 cnt = 0
 userList = []  # 여기에 회원정보를 리스트로 담을 예정
@@ -272,7 +301,7 @@ while 1:
 
             print("회원가입이 완료되었습니다\n")
             cnt += 1  # 이건 리스트 인덱스 때문에 늘려주는 것
-        
+
 
     elif sel == '2':
         loop = True  # 단순 while문을 돌리기 위한 변수
